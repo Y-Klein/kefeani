@@ -29,8 +29,10 @@ try:
         value = msg.value().decode("utf-8")
         user = json.loads(value)
         print(f"📦 {user}")
-        for user in user:
+        if type(user) == dict:
             my_col.insert_one(user)
+        elif type(user) == list:
+            my_col.insert_many(user)
 except KeyboardInterrupt:
     print("\n🔴 Stopping consumer")
 

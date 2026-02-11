@@ -34,10 +34,8 @@ def seed():
     with open("data/users_with_posts.json", "r") as f:
         data = json.load(f)
         counter = 0
-        print(len(data))
-        while counter < len(data)-10:
+        while counter < len(data)-9:
             value = json.dumps(data[counter:counter+10]).encode("utf-8")
-            print(value)
             producer.produce(
                 topic="users.registered",
                 value=value,
