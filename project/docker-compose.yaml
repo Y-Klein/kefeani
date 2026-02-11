@@ -5,12 +5,14 @@ services:
     ports:
       - 8000:8000
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
 
   consumer:
     build: ../consumer
     depends_on:
-      - api
+      api:
+        condition: service_started
 
 
 
@@ -45,6 +47,12 @@ services:
 
     volumes:
       - kafka_kraft:/var/lib/kafka/data
+    healthcheck:
+      test: [ "CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
 
 volumes:
   kafka_kraft:
