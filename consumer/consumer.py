@@ -29,7 +29,8 @@ try:
         value = msg.value().decode("utf-8")
         user = json.loads(value)
         print(f"📦 {user}")
-        my_col.insert_one(user)
+        for user in user:
+            my_col.insert_one(user)
 except KeyboardInterrupt:
     print("\n🔴 Stopping consumer")
 
