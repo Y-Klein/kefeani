@@ -1,0 +1,52 @@
+
+services:
+  api:
+    build: ../api
+    ports:
+      - 8000:8000
+    depends_on:
+      - kafka
+
+  consumer:
+    build: ../consumer
+    depends_on:
+      - api
+
+
+
+  mongo:
+    image: mongo
+    container_name: mongo-dev
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: pass
+      MONGO_INITDB_DATABASE: project
+    ports:
+      - 27017:27017
+
+  kafka:
+    image: confluentinc/cp-kafka:7.8.3
+    container_name: kafka
+
+
+    environment:
+      KAFKA_KRAFT_MODE: 'true'
+
+      CLUSTER_ID: '1L6g7nGhU-eAKfL--X25wo'
+      KAFKA_NODE_ID: 1
+
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+
+      KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
+
+    volumes:
+      - kafka_kraft:/var/lib/kafka/data
+
+volumes:
+  kafka_kraft:
