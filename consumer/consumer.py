@@ -2,7 +2,7 @@ import json
 import pymongo
 from confluent_kafka import Consumer
 
-my_client = pymongo.MongoClient("mongodb://localhost:27017/")
+my_client = pymongo.MongoClient("mongodb://admin:@mongo:27017/")
 mydb = my_client["project"]
 my_col = mydb["users"]
 consumer_config = {

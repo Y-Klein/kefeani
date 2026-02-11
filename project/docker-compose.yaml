@@ -19,7 +19,6 @@ services:
     container_name: mongo-dev
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: pass
       MONGO_INITDB_DATABASE: project
     ports:
       - 27017:27017
